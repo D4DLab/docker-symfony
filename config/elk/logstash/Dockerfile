@@ -1,0 +1,10 @@
+# https://www.docker.elastic.co/
+FROM docker.elastic.co/logstash/logstash:${ELK_VERSION}
+
+MAINTAINER Vasilij Dusko <support@d4d.lt>
+
+RUN rm -f /usr/share/logstash/pipeline/logstash.conf
+
+ADD pipelines.yml.d4d /usr/share/logstash/pipeline/logstash.yml
+ADD logstash.yml /usr/share/logstash/config/logstash.yml
+ADD ./conf.d/patterns/ /etc/logstash/conf.d/patterns/
