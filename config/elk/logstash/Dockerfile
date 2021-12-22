@@ -1,4 +1,6 @@
 # https://www.docker.elastic.co/
+ARG ELK_VERSION
+
 FROM docker.elastic.co/logstash/logstash:${ELK_VERSION}
 
 MAINTAINER Vasilij Dusko <support@d4d.lt>

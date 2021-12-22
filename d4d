@@ -364,6 +364,7 @@ doChecks() {
 
     ./config/nginx/build
     ./config/php/build
+    ./config/elk/build
 
     # phpMyAdmin configuration
      cp config/phpmyadmin/config.user.inc.php.d4d config/phpmyadmin/config.user.inc.php.tmp

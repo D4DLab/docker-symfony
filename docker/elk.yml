@@ -12,8 +12,10 @@
       - "9300:9300"
 
   logstash:
-    container_name: logstash
-    build: ./config/elk/logstash
+    build:
+      context: ./config/elk/logstash
+      args:
+        ELK_VERSION: ${ELK_VERSION}
     depends_on:
       - elasticsearch
     volumes:
@@ -23,7 +25,6 @@
       LS_JAVA_OPTS: "-Xmx256m -Xms256m"
 
   kibana:
-    container_name: kibana
     image: docker.elastic.co/kibana/kibana:${ELK_VERSION}
     depends_on:
       - elasticsearch
