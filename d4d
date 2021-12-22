@@ -339,6 +339,7 @@ doChecks() {
 
     # Ensure all folders exists
     mkdir -p ${NGINX_SSL_PATH}
+    mkdir -p ${SYMFONY_LOG_PATH}
     mkdir -p ${NGINX_LOG_PATH}
     mkdir -p ${MYSQL_DATA_PATH}
     mkdir -p ${USER_CONFIG_PATH}
