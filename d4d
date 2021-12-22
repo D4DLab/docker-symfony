@@ -305,6 +305,7 @@ doChecks() {
     sed -i 's#MYSQL_PASSWORD=db_password#'"MYSQL_PASSWORD=`pwgen -s 20 1`"'#g' ${ENV_SECRET}
     sed -i 's#MONGODB_ROOT_PASSWORD=root#'"MONGODB_ROOT_PASSWORD=`pwgen -s 20 1`"'#g' ${ENV_SECRET}
     sed -i 's#MONGODB_PASSWORD=db_password#'"MONGODB_PASSWORD=`pwgen -s 20 1`"'#g' ${ENV_SECRET}
+    sed -i 's#ELASTICSEARCH_PASSWORD=password#'"ELASTICSEARCH_PASSWORD=`pwgen -s 20 1`"'#g' ${ENV_SECRET}
 
     IN_IN_FILE=$(cat ${D4D_ENV} | grep -c ".env.secret")
     if [ ${IN_IN_FILE} -eq 0 ]; then
