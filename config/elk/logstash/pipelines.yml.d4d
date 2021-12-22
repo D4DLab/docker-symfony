@@ -1,0 +1,61 @@
+input {
+file {
+type => "nginx_access"
+path => "/var/log/nginx/project_access.log"
+start_position => beginning
+}
+file {
+type => "sulu_admin_dev"
+path => "/var/log/symfony/admin/dev.log"
+start_position => beginning
+}
+file {
+type => "sulu_admin_prod"
+path => "/var/log/symfony/admin/prod.log"
+start_position => beginning
+}
+file {
+type => "sulu_website_dev"
+path => "/var/log/symfony/website/dev.log"
+start_position => beginning
+}
+file {
+type => "sulu_website_prod"
+path => "/var/log/symfony/website/prod.log"
+start_position => beginning
+}
+file {
+type => "symfony_dev"
+path => "/var/log/symfony/dev.log"
+start_position => beginning
+}
+file {
+type => "symfony_prod"
+path => "/var/log/symfony/prod.log"
+start_position => beginning
+}
+}
+
+filter {
+if [type] == "nginx_access" {
+grok {
+patterns_dir => ["/etc/logstash/conf.d/patterns"]
+match => { "message" => "%{NGINXACCESS}"}
+}
+}
+else if [type] in ["sulu_admin_dev", "sulu_admin_prod", "sulu_website_dev", "sulu_website_prod", "symfony_dev", "symfony_prod"] {
+grok {
+patterns_dir => ["/etc/logstash/conf.d/patterns"]
+match => { "message" => "%{SYMFONY}"}
+}
+}
+}
+
+output {
+elasticsearch {
+hosts => "elasticsearch:9200"
+index => "logstash-local-dev-%{+YYYY-MM-dd}"
+user => "__ELASTICSEARCH_USERNAME__"
+password => "__ELASTICSEARCH_PASSWORD__"
+}
+}

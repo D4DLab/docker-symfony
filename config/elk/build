@@ -1,0 +1,26 @@
+#!/bin/bash
+
+# This script will prepare a Dockerfile
+
+WORK_DIR=$(pwd)
+
+cd ${WORK_DIR}
+
+#Added for security
+chmod 700 ${WORK_DIR}/build >/dev/null 2>&1
+chmod 700 ${WORK_DIR} >/dev/null 2>&1
+
+source ${WORK_DIR}/.env
+
+cp config/elk/kibana/kibana.yml.d4d config/elk/kibana/kibana.yml
+cp config/elk/logstash/logstash.yml.d4d config/elk/logstash/logstash.yml
+cp config/elk/logstash/pipelines.yml.d4d config/elk/logstash/pipelines.yml
+
+sed -i 's#__ELASTICSEARCH_USERNAME__#'"${ELASTICSEARCH_USERNAME}"'#g' config/elk/kibana/kibana.yml
+sed -i 's#__ELASTICSEARCH_PASSWORD__#'"${ELASTICSEARCH_PASSWORD}"'#g' config/elk/kibana/kibana.yml
+
+sed -i 's#__ELASTICSEARCH_USERNAME__#'"${ELASTICSEARCH_USERNAME}"'#g' config/elk/logstash/logstash.yml
+sed -i 's#__ELASTICSEARCH_PASSWORD__#'"${ELASTICSEARCH_PASSWORD}"'#g' config/elk/logstash/logstash.yml
+
+sed -i 's#__ELASTICSEARCH_USERNAME__#'"${ELASTICSEARCH_USERNAME}"'#g' config/elk/logstash/pipelines.yml
+sed -i 's#__ELASTICSEARCH_PASSWORD__#'"${ELASTICSEARCH_PASSWORD}"'#g' config/elk/logstash/pipelines.yml
