@@ -419,6 +419,10 @@ doBuild() {
       cat "${WORK_DIR}/docker/elasticsearch.yml" >> "${WORK_DIR}/docker-compose.yml"
     fi
 
+    if [ "${ELK}" = "yes" ]; then
+      cat "${WORK_DIR}/docker/elk.yml" >> "${WORK_DIR}/docker-compose.yml"
+    fi
+
     if [ "${NGROK}" = "yes" ]; then
       cat "${WORK_DIR}/docker/ngrok.yml" >> "${WORK_DIR}/docker-compose.yml"
     fi

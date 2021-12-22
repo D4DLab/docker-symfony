@@ -1,0 +1,36 @@
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:${ELK_VERSION}
+    environment:
+      ES_JAVA_OPTS: "-Xmx256m -Xms256m"
+      ELASTIC_PASSWORD: ${ELASTICSEARCH_PASSWORD}
+      discovery.type: single-node
+    volumes:
+      - ./config/elk/elasticsearch/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:cached
+    ports:
+      - "${PORT_ELASTICSEARCH}:9200"
+      - "9300:9300"
+
+  logstash:
+    container_name: logstash
+    build: ./config/elk/logstash
+    depends_on:
+      - elasticsearch
+    volumes:
+      - ${NGINX_LOG_PATH}:/var/log/nginx:cached
+      - ./var/log/symfony:/var/log/symfony:cached
+    environment:
+      LS_JAVA_OPTS: "-Xmx256m -Xms256m"
+
+  kibana:
+    container_name: kibana
+    image: docker.elastic.co/kibana/kibana:${ELK_VERSION}
+    depends_on:
+      - elasticsearch
+    volumes:
+      - ./config/elk/kibana/kibana.yml:/usr/share/kibana/config/kibana.yml:cached
+    environment:
+      ELASTICSEARCH_USERNAME: ${ELASTICSEARCH_USERNAME}
+      ELASTICSEARCH_PASSWORD: ${ELASTICSEARCH_PASSWORD}
+    ports:
+      - "${PORT_ELASTICSEARCH_KIBANA}:5601"
