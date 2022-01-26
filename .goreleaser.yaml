@@ -1,3 +1,4 @@
+project_name: d4d
 before:
   hooks:
     - go mod download
@@ -27,8 +28,16 @@ archives:
       - goos: windows
         format: zip
     files:
-      - README.md
+      - config/*
+      - docker/*
+      - scripts/*
+      - user/*
+      - .env.dist
+      - .env.secret.dist
+      - .gitignore
+      - CHANGELOG.md
       - LICENSE
+      - README.md
       - d4d
 
 checksum:
